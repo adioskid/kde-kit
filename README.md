@@ -14,10 +14,6 @@ sync-type = git
 sync-uri = https://github.com/lucascouts/kde-kit.git
 priority= 99
 ```
-#### then change to new branch.
-```
-# cd /usr/local/portage/kde-kit && git checkout prime
-```
 
 Afterwards, simply run `ego sync`, and Portage should seamlessly make all our ebuilds available.
 

@@ -2,14 +2,14 @@
 <!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
 <repositories xmlns="" version="1.0">
   <repo quality="experimental" status="unofficial">
-    <name><![CDATA[kde-kit]]></name>
-    <description lang="en"><![CDATA[kde-kit]]></description>
-    <homepage>https://github.com/adioskid/kde-kit</homepage>
+    <name><![CDATA[kde-kit-beta]]></name>
+    <description lang="en"><![CDATA[kde-kit-beta]]></description>
+    <homepage>https://github.com/adioskid/kde-kit-beta</homepage>
     <owner type="person">
       <email>lucascs@protonmail.com</email>
       <name><![CDATA[Lucas C.S.]]></name>
     </owner>
-    <source type="git">git://github.com/adioskid/kde-kit.git</source>
-    <feed>https://github.com/adioskid/kde-kit/commits/master.atom</feed>
+    <source type="git">git://github.com/adioskid/kde-kit-beta.git</source>
+    <feed>https://github.com/adioskid/kde-kit-beta/commits/master.atom</feed>
   </repo>
 </repositories>

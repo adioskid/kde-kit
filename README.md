@@ -11,7 +11,7 @@ create a `/etc/portage/repos.conf/kde-kit.conf` file containing precisely:
 [kde-kit]
 location = /usr/local/portage/kde-kit
 sync-type = git
-sync-uri = https://github.com/lucascouts/kde-kit.git
+sync-uri = https://github.com/adioskid/kde-kit.git
 priority= 99
 ```
 
@@ -22,5 +22,5 @@ Afterwards, simply run `ego sync`, and Portage should seamlessly make all our eb
 Invoke the following:
 
 ```
-# layman -o https://raw.github.com/lucascouts/kde-kit/master/repositories.xml -f -a kde-kit
+# layman -o https://raw.github.com/adioskid/kde-kit/master/repositories.xml -f -a kde-kit
 ```

@@ -11,9 +11,9 @@ SLOT="5"
 KEYWORDS="~amd64 ~arm64 ~ppc64"
 IUSE="bluetooth +browser-integration crypt +desktop-portal discover
 +display-manager elogind grub gtk +handbook +kwallet +legacy-systray
-+networkmanager plymouth pulseaudio qrcode +sddm sdk systemd thunderbolt +wallpapers"
++networkmanager plymouth pulseaudio qrcode +sddm sdk thunderbolt +wallpapers"
 
-REQUIRED_USE="?? ( elogind systemd )"
+REQUIRED_USE="?? ( elogind )"
 
 RDEPEND="
 	>=kde-plasma/breeze-${PV}:${SLOT}
@@ -45,9 +45,9 @@ RDEPEND="
 	>=kde-plasma/powerdevil-${PV}:${SLOT}
 	>=kde-plasma/systemsettings-${PV}:${SLOT}
 	>=kde-plasma/user-manager-${PV}:${SLOT}
-	sys-apps/dbus[elogind?,systemd?]
-	sys-auth/polkit[elogind?,systemd?]
-	sys-fs/udisks:2[elogind?,systemd?]
+	sys-apps/dbus[elogind?]
+	sys-auth/polkit[elogind?]
+	sys-fs/udisks:2[elogind?]
 	bluetooth? ( >=kde-plasma/bluedevil-${PV}:${SLOT} )
 	browser-integration? ( >=kde-plasma/plasma-browser-integration-${PV}:${SLOT} )
 	crypt? ( >=kde-plasma/plasma-vault-${PV}:${SLOT} )
@@ -56,7 +56,7 @@ RDEPEND="
 	display-manager? (
 		sddm? (
 			>=kde-plasma/sddm-kcm-${PV}:${SLOT}
-			x11-misc/sddm[elogind?,systemd?]
+			x11-misc/sddm[elogind?]
 		)
 		!sddm? ( x11-misc/lightdm )
 	)
@@ -70,7 +70,7 @@ RDEPEND="
 	legacy-systray? ( >=kde-plasma/xembed-sni-proxy-${PV}:${SLOT} )
 	networkmanager? (
 		>=kde-plasma/plasma-nm-${PV}:${SLOT}
-		net-misc/networkmanager[elogind?,systemd?]
+		net-misc/networkmanager[elogind?]
 		qrcode? ( kde-frameworks/prison[qml] )
 	)
 	plymouth? (
@@ -85,9 +85,9 @@ RDEPEND="
 
 pkg_postinst() {
 	has_version sys-auth/consolekit || return
-	use elogind || use systemd && return
+	use elogind
 	ewarn "An existing installation of sys-auth/consolekit was detected even though"
-	ewarn "${PN} was configured with USE $(usex elogind elogind systemd)."
+	ewarn "${PN} was configured with USE $(usex elogind elogind)."
 	ewarn "There can only be one session manager at runtime, otherwise random issues"
 	ewarn "may occur. Please make sure USE consolekit is nowhere enabled in make.conf"
 	ewarn "or package.use and remove sys-auth/consolekit before raising bugs."

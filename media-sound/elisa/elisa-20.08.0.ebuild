@@ -6,7 +6,7 @@ EAPI=7
 ECM_HANDBOOK="optional"
 ECM_TEST="forceoptional"
 KDE_RELEASE_SERVICE="true"
-KFMIN=5.70.0
+KFMIN=5.72.0
 QTMIN=5.14.2
 inherit ecm kde.org
 
@@ -21,7 +21,7 @@ IUSE="mpris semantic-desktop +vlc"
 
 BDEPEND="sys-devel/gettext"
 DEPEND="
-	>=dev-qt/qtdeclarative-${QTMIN}:5
+	>=dev-qt/qtdeclarative-${QTMIN}:5[widgets]
 	>=dev-qt/qtgui-${QTMIN}:5
 	>=dev-qt/qtmultimedia-${QTMIN}:5
 	>=dev-qt/qtsql-${QTMIN}:5

@@ -8,12 +8,14 @@ QTMIN=5.12.3
 inherit ecm kde.org toolchain-funcs
 
 if [[ ${KDE_BUILD_TYPE} != live ]]; then
-	MY_PV=${PV/_/-}
-	MY_P=${PN}-${MY_PV}
-	SRC_BRANCH=stable
-	[[ ${PV} =~ beta[0-9]$ ]] && SRC_BRANCH=unstable
-	SRC_URI="mirror://kde/${SRC_BRANCH}/digikam/${PV}/${MY_P}.tar.xz"
-	KEYWORDS="amd64 x86"
+	MY_P=${PN}-${PV/_/-}
+	if [[ ${PV} =~ rc[0-9]*$ ]]; then
+		SRC_URI="mirror://kde/unstable/${PN}/"
+	else
+		SRC_URI="mirror://kde/stable/${PN}/${PV}/"
+	fi
+	SRC_URI+="${MY_P}.tar.xz"
+	KEYWORDS="~amd64 ~x86"
 	S="${WORKDIR}/${MY_P}"
 fi
 
@@ -22,7 +24,7 @@ HOMEPAGE="https://www.digikam.org/"
 
 LICENSE="GPL-2"
 SLOT="5"
-IUSE="addressbook calendar dnn heif +imagemagick gphoto2 +lensfun marble mediaplayer mysql opengl openmp +panorama scanner semantic-desktop vkontakte webkit X"
+IUSE="addressbook calendar gphoto2 heif +imagemagick +lensfun marble mediaplayer mysql opengl openmp +panorama scanner semantic-desktop webkit X"
 
 BDEPEND="
 	>=dev-util/cmake-3.14.3
@@ -60,7 +62,7 @@ COMMON_DEPEND="
 	media-libs/lcms:2
 	media-libs/liblqr
 	media-libs/libpng:0=
-	>=media-libs/opencv-3.1.0:=
+	>=media-libs/opencv-3.3.0:=[contrib,contribdnn]
 	media-libs/tiff:0
 	virtual/jpeg:0
 	addressbook? (
@@ -68,7 +70,6 @@ COMMON_DEPEND="
 		>=kde-frameworks/kcontacts-${KFMIN}:5
 	)
 	calendar? ( >=kde-frameworks/kcalendarcore-${KFMIN}:5 )
-	dnn? ( >=media-libs/opencv-3.1.0:=[contrib,contribdnn] )
 	gphoto2? ( media-libs/libgphoto2:= )
 	heif? ( media-libs/x265:= )
 	imagemagick? ( media-gfx/imagemagick:= )
@@ -89,7 +90,6 @@ COMMON_DEPEND="
 	panorama? ( >=kde-frameworks/threadweaver-${KFMIN}:5 )
 	scanner? ( >=kde-apps/libksane-19.04.3:5 )
 	semantic-desktop? ( >=kde-frameworks/kfilemetadata-${KFMIN}:5 )
-	vkontakte? ( net-libs/libkvkontakte:5 )
 	!webkit? ( >=dev-qt/qtwebengine-${QTMIN}:5[widgets] )
 	webkit? ( >=dev-qt/qtwebkit-5.212.0_pre20180120:5 )
 	X? (
@@ -109,11 +109,6 @@ RDEPEND="${COMMON_DEPEND}
 RESTRICT+=" test"
 # bug 366505
 
-PATCHES=(
-	"${FILESDIR}/${PN}-6.3.0-cmake.patch"
-	"${FILESDIR}/${P}-qt-5.15.patch" # bug 730298
-)
-
 pkg_pretend() {
 	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
 	ecm_pkg_pretend
@@ -132,7 +127,6 @@ src_configure() {
 		-DCMAKE_DISABLE_FIND_PACKAGE_Jasper=ON
 		-DENABLE_AKONADICONTACTSUPPORT=$(usex addressbook)
 		$(cmake_use_find_package calendar KF5CalendarCore)
-		-DENABLE_FACESENGINE_DNN=$(usex dnn)
 		$(cmake_use_find_package gphoto2 Gphoto2)
 		$(cmake_use_find_package heif X265)
 		$(cmake_use_find_package imagemagick ImageMagick)
@@ -146,7 +140,6 @@ src_configure() {
 		$(cmake_use_find_package panorama KF5ThreadWeaver)
 		$(cmake_use_find_package scanner KF5Sane)
 		$(cmake_use_find_package semantic-desktop KF5FileMetaData)
-		$(cmake_use_find_package vkontakte KF5Vkontakte)
 		-DENABLE_QWEBENGINE=$(usex !webkit)
 		$(cmake_use_find_package X X11)
 	)

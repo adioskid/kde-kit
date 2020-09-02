@@ -10,10 +10,10 @@ LICENSE="metapackage"
 SLOT="5"
 KEYWORDS="*"
 IUSE="bluetooth +browser-integration crypt +desktop-portal discover
-+display-manager elogind grub gtk +handbook +kwallet +legacy-systray
++display-manager +elogind grub gtk +handbook +kwallet +legacy-systray
 +networkmanager plymouth pulseaudio qrcode +sddm sdk systemd thunderbolt +wallpapers"
 
-REQUIRED_USE="?? ( elogind )"
+REQUIRED_USE="^^ ( elogind )"
 
 RDEPEND="
 	>=kde-plasma/breeze-${PV}:${SLOT}
@@ -64,6 +64,7 @@ RDEPEND="
 	gtk? (
 		>=kde-plasma/breeze-gtk-${PV}:${SLOT}
 		>=kde-plasma/kde-gtk-config-${PV}:${SLOT}
+		x11-misc/appmenu-gtk-module
 	)
 	handbook? ( kde-apps/khelpcenter:5 )
 	kwallet? ( >=kde-plasma/kwallet-pam-${PV}:${SLOT} )
@@ -85,7 +86,6 @@ RDEPEND="
 
 pkg_postinst() {
 	has_version sys-auth/consolekit || return
-	use elogind || return
 	ewarn "An existing installation of sys-auth/consolekit was detected even though"
 	ewarn "${PN} was configured with USE $(usex elogind elogind systemd)."
 	ewarn "There can only be one session manager at runtime, otherwise random issues"

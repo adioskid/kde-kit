@@ -56,7 +56,7 @@ RDEPEND="${DEPEND}
 	>=sys-power/upower-0.9.23
 "
 
-PATCHES=( "${FILESDIR}/${P}-ddcutil-0.9.9.patch" ) # bug 734918
+PATCHES=( "${FILESDIR}/${PN}-5.19.4-ddcutil-0.9.9.patch" ) # bug 734918
 
 src_configure() {
 	local mycmakeargs=(
